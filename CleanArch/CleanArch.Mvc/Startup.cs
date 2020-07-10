@@ -12,6 +12,7 @@ using CleanArch.Mvc.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using CleanArch.Infra.Data.context;
 
 namespace CleanArch.Mvc
 {
@@ -34,6 +35,12 @@ namespace CleanArch.Mvc
             // removed email confirmation requirement
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDbContext<UniversityDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("UniversityDBConnection"));
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
